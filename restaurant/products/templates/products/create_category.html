@@ -1,0 +1,15 @@
+{% extends './base.html' %} 
+
+{% block content %}
+    <div class="container">
+        <h1>Create Category</h1>
+        {{ error }}
+        <form action="/categories/create/" method ="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>
+                Save
+            </button>
+        </form>
+    </div>
+{% endblock %}
