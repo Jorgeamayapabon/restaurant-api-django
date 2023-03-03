@@ -1,0 +1,30 @@
+{
+    "update_id": 600217781,
+    "message": {
+        "message_id": 117,
+        "from": {
+            "id": 1071291256,
+            "is_bot": "False",
+            "first_name": "Jorge",
+            "last_name": "Amaya",
+            "username": "JorgeAmaya",
+            "language_code": "es"
+        },
+        "chat": {
+            "id": 1071291256,
+            "first_name": "Jorge",
+            "last_name": "Amaya",
+            "username": "JorgeAmaya",
+            "type": "private"
+        },
+        "date": 1677551347,
+        "text": "/start",
+        "entities": [
+            {
+                "offset": 0,
+                "length": 6,
+                "type": "bot_command"
+            }
+        ]
+    }
+}
