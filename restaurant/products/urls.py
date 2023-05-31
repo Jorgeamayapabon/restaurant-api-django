@@ -12,5 +12,4 @@ urlpatterns = [
     path("products/create/", views.CreateProduct.as_view(), name="create_products"),
     path("products/delete/", views.DeleteProduct.as_view(), name="delete_products"),
     path("categories/create/", views.CreateCategory.as_view(), name="create_category"),
-    path('webhooks/bot/', csrf_exempt(views.ChatBot.as_view())),
 ]
