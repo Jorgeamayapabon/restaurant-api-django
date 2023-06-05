@@ -1,0 +1,57 @@
+{
+    "start": {
+        "message1": "Hola bienvenido a tu Restaurante",
+        "message2": "¿qué quieres hacer el dia de hoy?",
+        "reply_keyboard": ["Ver Menú", "Salir"]
+    },
+    "menu": {
+        "message": "Este es el Menú, Elige una categoría 🍔🌭🍟",
+        "keyboard_item": ["Otros"]
+    },
+    "products": {
+        "message1": "Estos son los productos de la categoría",
+        "message2": "¿Cual producto te gustaría agregar?",
+        "message3": "Estas son las otras opciones",
+        "reply_keyboard": [["Inicio"], ["Salir"]],
+        "keyboard_item": ["Atras"],
+        "text": ["Producto", "Descripción", "Precio", "Disponibles", "unidades"]
+    },
+    "cart": {
+        "message1": "Agregaste de la categoría",
+        "message2": "el producto",
+        "message3": "al carrito de compras",
+        "message4": "Hasta el momento tienes agregados",
+        "message5": "¿Quieres agregar mas?",
+        "reply_keyboard": [["Si"], ["No"]]
+    },
+    "amount": {
+        "message1": "¿Cuantos productos deseas agregar?",
+        "message2": "Producto agregado al carrito de compras",
+        "message3": "¿Qué quieres hacer ahora?",
+        "message4": "Agregaste",
+        "message5": "productos al carrito de compras",
+        "reply_keyboard": [["Añadir Producto"],["Comprar"], ["Ver Carrito"]]
+    },
+    "buy": {
+        "message1": "Ya casi terminamos, dejame te muestro nuestras opciones de pago.\n- Nequi: 3004669165. \n- Efectivo.",
+        "message2": "Pago realizado\nMuchas gracias por tu compra. Vuelve pronto.\nSi me necesitas dale al comando /start",
+        "message3": "Te gustaría borrar o agregar algun producto al carrito?",
+        "message4": "¿Cual producto deseas borrar del carrito de compras?",
+        "message5": "Fue borrado el producto",
+        "message6": "del carrito de compras",
+        "reply_keyboard1": [["Pagado"],["Salir"]],
+        "reply_keyboard2": [["Agregar"],["Borrar"],["Comprar"]],
+        "reply_keyboard3": [["Añadir Producto"],["Comprar"], ["Ver Carrito"]]
+    },
+    "done": {
+        "message1": "Hasta pronto, si necesitas algo solo escribe el comando\n /start"
+    },
+    "show": {
+        "message1": "Esto es lo que tienes en el carrito de compras\n\n",
+        "message2": "De la categoria",
+        "message3": "Producto",
+        "message4": "Precio",
+        "message5": "Cantidad",
+        "message6": "Precio total de la compra"
+    }
+}

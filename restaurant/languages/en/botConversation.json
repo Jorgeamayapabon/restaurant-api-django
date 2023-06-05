@@ -1,0 +1,57 @@
+{
+    "start": {
+        "message1": "Hi welcome to your Restaurant",
+        "message2": "what do you want to do today?",
+        "reply_keyboard": ["Menu", "Leave"]
+    },
+    "menu": {
+        "message": "This is the Menu, Choose a category 🍔🌭🍟",
+        "keyboard_item": ["Others"]
+    },
+    "products": {
+        "message1": "These are the products of the category",
+        "message2": "What product would you like to add?",
+        "message3": "These are the other options",
+        "reply_keyboard": [["Start"], ["Leave"]],
+        "keyboard_item": ["Back"],
+        "text": ["Product", "Description", "Price", "Available", "units"]
+    },
+    "cart": {
+        "message1": "You added from the category",
+        "message2": "the product",
+        "message3": "to cart",
+        "message4": "You have added",
+        "message5": "Do you want to add more?",
+        "reply_keyboard": [["Yes"], ["No"]]
+    },
+    "amount": {
+        "message1": "How many products do you want to add?",
+        "message2": "Product added to cart",
+        "message3": "What do you want to do now?",
+        "message4": "You added",
+        "message5": "products to cart",
+        "reply_keyboard": [["Add Product"],["Buy"], ["Cart"]]
+    },
+    "buy": {
+        "message1": "We're almost done, let me show you our payment options.\n- Nequi: 3004669165. \n- Cash.",
+        "message2": "Payment made\n Thank you very much for your purchase. Come back soon.\nIf you need me, give the command /start",
+        "message3": "Would you like to delete or add a product to the cart?",
+        "message4": "Which product do you want to delete from the shopping cart?",
+        "message5": "The product was deleted",
+        "message6": "from cart",
+        "reply_keyboard1": [["Paid"],["Leave"]],
+        "reply_keyboard2": [["Add"],["Delete"],["Buy"]],
+        "reply_keyboard3": [["Add Product"],["Buy"], ["Cart"]]
+    },
+    "done": {
+        "message1": "See you soon, if you need something just write the command\n /start"
+    },
+    "show": {
+        "message1": "This is what you have in the shopping cart\n\n",
+        "message2": "Of the category",
+        "message3": "Product",
+        "message4": "Price",
+        "message5": "Amount",
+        "message6": "Full purchase price"
+    }
+}
