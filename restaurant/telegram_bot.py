@@ -1,3 +1,4 @@
+import re
 import django
 import os
 import json
@@ -27,13 +28,14 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-OTHERS, CHOICES, PRODUCTS, CART, AMOUNT, SHOPPING= range(6)
+OTHERS, CHOICES, REGISTER, SET_NAME, SET_EMAIL, SET_ID, PRODUCTS, CART, AMOUNT, SHOPPING= range(10)
 
 literal_start = "^(Start|Inicio)$"
 literal_done = "^(Leave|Salir)$"
 literal_back = "^(Back|Atras)$"
 literal_languaje = "^(Español|English)$"
 literal_menu = "^(Ver Menú|Menu)$"
+literal_register = "^(Register|Registro)$"
 literal_amount = "^(Si|No|Yes)$"
 literal_shopping_add = "^(Añadir Producto|Agregar|Add Product|Add)$"
 literal_shopping_buy = "^(Comprar|Pagado|Ver Carrito|Borrar|Buy|Paid|Cart|Delete)$"
@@ -46,6 +48,34 @@ categories = {}
 products_selections = {}
 category_and_product = {}
 shopping_cart = {}
+register = {}
+
+
+def es_nombre_completo(name: str):
+    # Verificar si el string tiene al menos dos palabras
+    if len(name.split()) < 2:
+        return False
+
+    # Verificar si todas las palabras son alfabéticas
+    if not all(word.isalpha() for word in name.split()):
+        return False
+
+    # Verificar si solo contiene caracteres alfabéticos, espacios y apóstrofes
+    if not re.match("^[a-zA-Z' ]+$", name):
+        return False
+
+    return True
+
+
+def es_correo_electronico(email: str):
+    # Patrón de expresión regular para validar correos electrónicos
+    patron = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    
+    # Utilizar re.match para verificar si el correo coincide con el patrón
+    if re.match(patron, email):
+        return True
+    else:
+        return False
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -53,7 +83,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     reply_keyboard = [
         ["Español"],
         ["English"],
-        ["Salir"],
     ]
     markup = ReplyKeyboardMarkup(reply_keyboard)
     
@@ -77,6 +106,69 @@ async def languaje_selected(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     markup = ReplyKeyboardMarkup(reply_keyboard)
     await update.message.reply_text(reply_text, reply_markup=markup)
     return CHOICES
+    
+
+async def form_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = update.message.text
+    await update.message.reply_text("Escribe tu nombre completo", reply_markup=ReplyKeyboardRemove())
+    return SET_NAME
+    # if text.lower() == "nombre":
+    #     await update.message.reply_text("Escribe tu nombre completo", reply_markup=ReplyKeyboardRemove())
+    #     return SET_NAME
+    # elif text.lower() == "email":
+    #     await update.message.reply_text("Escribe un correo electronico valido", reply_markup=ReplyKeyboardRemove())
+    #     return SET_EMAIL
+    # elif text.lower() == "identificacion":
+    #     await update.message.reply_text("Escribe tu numero de identificacion sin espacios, puntos, comas o guiones", reply_markup=ReplyKeyboardRemove())
+    #     return SET_ID
+    # else:
+    #     markup = ReplyKeyboardMarkup([])
+    #     await update.message.reply_text("este es el formulario", reply_markup=markup)
+    #     return CHOICES
+
+
+async def set_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = update.message.text
+
+    if "name" in register.keys():
+        await update.message.reply_text("Escribe un correo electronico valido", reply_markup=ReplyKeyboardRemove())
+        return SET_EMAIL
+    
+    if es_nombre_completo(text):
+        register["name"] = text
+        await update.message.reply_text("Escribe un correo electronico valido", reply_markup=ReplyKeyboardRemove())
+        return SET_EMAIL
+    else:
+        await update.message.reply_text("Ese nombre no es valido. Escribe continuar", reply_markup=ReplyKeyboardRemove())
+        return REGISTER
+
+
+async def set_email(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = update.message.text
+
+    if "email" in register.keys():
+        await update.message.reply_text("Escribe tu numero de identificacion sin espacios, puntos, comas o guiones", reply_markup=ReplyKeyboardRemove())
+        return SET_ID
+    
+    if es_correo_electronico(text):
+        register["email"] = text
+        await update.message.reply_text("Escribe tu numero de identificacion sin espacios, puntos, comas o guiones", reply_markup=ReplyKeyboardRemove())
+        return SET_ID
+    else:
+        await update.message.reply_text("Ese correo no es valido. Escribe continuar", reply_markup=ReplyKeyboardRemove())
+        return SET_NAME
+
+
+async def set_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    text = update.message.text
+
+    if text.isdigit():
+        register["identification"] = text
+        await update.message.reply_text("Escribe Menu")
+        return CHOICES
+    else:
+        await update.message.reply_text("Ese numero de identificacion no es valido. Escribe continuar", reply_markup=ReplyKeyboardRemove())
+        return SET_EMAIL
 
 
 async def ver_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -196,6 +288,13 @@ async def buy_products(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         reply_text = d_buy['message2']
         shopping_cart.clear()
         await update.message.reply_text(reply_text, reply_markup=ReplyKeyboardRemove())
+        await update.message.reply_text(
+            f"Tu factura se cargara con los siguientes datos"
+            f"\nNombre: {register.get('name')}"
+            f"\nIdentificacion:: {register.get('identification')}"
+            f"\nCorreo: {register.get('email')}"
+        )
+        register.clear()
         return ConversationHandler.END
     elif text.lower() == "ver carrito" or text.lower() == "cart":
         await update.message.reply_text(show_shopping_cart(), reply_markup=ReplyKeyboardRemove())
@@ -259,6 +358,20 @@ if __name__ == '__main__':
             ],
             CHOICES: [
                 MessageHandler(filters.Regex(literal_menu), ver_menu),
+                MessageHandler(filters.Regex(literal_register), form_data),
+                MessageHandler(filters.Regex('^(Nombre|Email|Identificacion)$'), form_data),
+            ],
+            REGISTER: [
+                MessageHandler(filters.TEXT, form_data)
+            ],
+            SET_NAME: [
+                MessageHandler(filters.TEXT, set_name),
+            ],
+            SET_EMAIL: [
+                MessageHandler(filters.TEXT, set_email),
+            ],
+            SET_ID: [
+                MessageHandler(filters.TEXT, set_id),
             ],
             PRODUCTS: [MessageHandler(filters.TEXT, products),],
             CART: [

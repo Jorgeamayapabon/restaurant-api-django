@@ -2,7 +2,7 @@
     "start": {
         "message1": "Hola bienvenido a tu Restaurante",
         "message2": "¿qué quieres hacer el dia de hoy?",
-        "reply_keyboard": ["Ver Menú", "Salir"]
+        "reply_keyboard": ["Ver Menú", "Registro", "Salir"]
     },
     "menu": {
         "message": "Este es el Menú, Elige una categoría 🍔🌭🍟",
